@@ -1,0 +1,82 @@
+/* styles/theme.css */
+:root {
+  /* Color Variables */
+  --primary: #6366f1;
+  --primary-hover: #4f46e5;
+  --secondary: #f97316;
+  --secondary-hover: #ea580c;
+  --background: #f8fafc;
+  --card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+
+  /* Font Variables */
+  --font-primary: 'Inter', sans-serif;
+  --font-secondary: 'Roboto', sans-serif;
+
+  /* Layout Variables */
+  --sidebar-width: 260px;
+  --border-radius: 12px;
+  --shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+  --transition: all 0.3s ease;
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  font-family: var(--font-primary);
+  -webkit-font-smoothing: antialiased;
+  line-height: 1.5;
+}
+
+h1, h2, h3, h4, h5, h6 {
+  font-weight: 600;
+  line-height: 1.25;
+}
+
+button, input, select, textarea {
+  font-family: inherit;
+}
+
+button {
+  cursor: pointer;
+  border: none;
+  background: none;
+}
+
+.card {
+  background: var(--card);
+  border-radius: var(--border-radius);
+  box-shadow: var(--shadow);
+  padding: 1.5rem;
+}
+
+.bg-card {
+  background: var(--card);
+}
+
+.bg-background {
+  background: var(--background);
+}
+
+.text-text-primary {
+  color: var(--text-primary);
+}
+
+.text-text-secondary {
+  color: var(--text-secondary);
+}
+
+.border-border {
+  border-color: var(--border);
+}

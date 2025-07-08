@@ -1,0 +1,88 @@
+/* styles/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+html, body {
+  height: 100%;
+  font-family: 'Inter', sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Light theme default */
+:root {
+  --primary: #6366f1;
+  --secondary: #f97316;
+  --background: #f8fafc;
+  --card: #ffffff;
+  --text-primary: #0f172a;
+  --text-secondary: #64748b;
+  --border: #e2e8f0;
+  --success: #10b981;
+  --warning: #f59e0b;
+  --danger: #ef4444;
+  --accent: #8b5cf6;
+
+  --sidebar-width: 280px;
+  --border-radius: 16px;
+}
+
+/* Dark theme */
+.dark {
+  --primary: #818cf8;
+  --secondary: #fb923c;
+  --background: #0f172a;
+  --card: #1e293b;
+  --text-primary: #f1f5f9;
+  --text-secondary: #94a3b8;
+  --border: #334155;
+  --success: #34d399;
+  --warning: #fbbf24;
+  --danger: #f87171;
+  --accent: #a78bfa;
+}
+
+/* Cyberpunk theme */
+.cyberpunk {
+  --primary: #ff00c8;
+  --secondary: #00f7ff;
+  --background: #0a0a18;
+  --card: #161636;
+  --text-primary: #e0e0ff;
+  --text-secondary: #a0a0d0;
+  --border: #30305a;
+  --success: #00ff9d;
+  --warning: #ffd700;
+  --danger: #ff0055;
+  --accent: #bd00ff;
+}
+
+body {
+  background-color: var(--background);
+  color: var(--text-primary);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+
+.card {
+  background-color: var(--card);
+  border-radius: var(--border-radius);
+  box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
+  padding: 1.5rem;
+  transition: all 0.3s ease;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.15);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.18);
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
