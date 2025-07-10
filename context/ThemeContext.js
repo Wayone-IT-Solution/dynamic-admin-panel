@@ -1,71 +1,58 @@
-// context/ThemeContext.js
 "use client";
 import { createContext, useState, useEffect, useContext } from "react";
-import { themes } from "@/config/theme";
+import { themes, getCustomTheme } from "@/config/theme";
 
 const ThemeContext = createContext();
 
+const isClient = typeof window !== "undefined";
+
+const syncThemeVariables = (config) => {
+  if (!isClient) return;
+  const root = document.documentElement;
+  Object.entries(config).forEach(([key, value]) => {
+    if (key !== "name") root.style.setProperty(`--${key}`, value);
+  });
+};
+
 export const ThemeProvider = ({ children }) => {
-  const [theme, setTheme] = useState("light");
-  const [themeConfig, setThemeConfig] = useState(themes.light);
+  const [themeState, setThemeState] = useState({
+    name: "light",
+    config: themes.light,
+  });
 
   useEffect(() => {
+    if (typeof window === "undefined") return;
+
     const savedTheme = localStorage.getItem("theme") || "light";
-    const customTheme = localStorage.getItem("customTheme");
+    const config =
+      savedTheme === "custom"
+        ? JSON.parse(localStorage.getItem("customTheme")) || themes.light
+        : themes[savedTheme] || themes.light;
 
-    if (savedTheme === "custom" && customTheme) {
-      try {
-        setThemeConfig(JSON.parse(customTheme));
-      } catch (e) {
-        console.error("Invalid custom theme, resetting to light");
-        setThemeConfig(themes.light);
-        localStorage.setItem("theme", "light");
-      }
-    } else if (themes[savedTheme]) {
-      setThemeConfig(themes[savedTheme]);
-    } else {
-      setThemeConfig(themes.light);
-      localStorage.setItem("theme", "light");
-    }
-
-    setTheme(savedTheme);
+    syncThemeVariables(config);
     document.documentElement.className = savedTheme;
+    setThemeState({ name: savedTheme, config });
   }, []);
 
-  const changeTheme = (newTheme) => {
-    if (newTheme === "custom") {
-      const customTheme = localStorage.getItem("customTheme");
-      if (customTheme) {
-        try {
-          setThemeConfig(JSON.parse(customTheme));
-        } catch (e) {
-          console.error("Invalid custom theme, resetting to light");
-          setThemeConfig(themes.light);
-          newTheme = "light";
-        }
-      } else {
-        setThemeConfig(themes.light);
-        newTheme = "light";
-      }
-    } else if (themes[newTheme]) {
-      setThemeConfig(themes[newTheme]);
-    } else {
-      setThemeConfig(themes.light);
-      newTheme = "light";
-    }
+  const updateTheme = (newTheme, isCustom = false) => {
+    if (!isClient) return;
 
-    setTheme(newTheme);
-    localStorage.setItem("theme", newTheme);
-    document.documentElement.className = newTheme;
+    const themeConfig = isCustom ? newTheme : themes[newTheme];
+    setThemeState({
+      name: isCustom ? "custom" : newTheme,
+      config: themeConfig,
+    });
+    localStorage.setItem("theme", isCustom ? "custom" : newTheme);
+    if (isCustom) localStorage.setItem("customTheme", JSON.stringify(newTheme));
   };
 
   return (
     <ThemeContext.Provider
       value={{
-        theme,
-        themeConfig,
-        changeTheme,
-        setThemeConfig,
+        theme: themeState.name,
+        themeConfig: themeState.config,
+        changeTheme: (theme) => updateTheme(theme),
+        updateCustomTheme: (config) => updateTheme(config, true),
       }}
     >
       {children}
@@ -75,8 +62,6 @@ export const ThemeProvider = ({ children }) => {
 
 export const useTheme = () => {
   const context = useContext(ThemeContext);
-  if (!context) {
-    throw new Error("useTheme must be used within a ThemeProvider");
-  }
+  if (!context) throw new Error("useTheme must be used within ThemeProvider");
   return context;
 };

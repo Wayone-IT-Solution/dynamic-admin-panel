@@ -1,4 +1,3 @@
-// config/theme.js
 export const themes = {
   light: {
     name: "light",
@@ -12,7 +11,6 @@ export const themes = {
     success: "#10b981",
     warning: "#f59e0b",
     danger: "#ef4444",
-    accent: "#8b5cf6",
   },
   dark: {
     name: "dark",
@@ -26,33 +24,15 @@ export const themes = {
     success: "#34d399",
     warning: "#fbbf24",
     danger: "#f87171",
-    accent: "#a78bfa",
-  },
-  cyberpunk: {
-    name: "cyberpunk",
-    primary: "#ff00c8",
-    secondary: "#00f7ff",
-    background: "#0a0a18",
-    card: "#161636",
-    textPrimary: "#e0e0ff",
-    textSecondary: "#a0a0d0",
-    border: "#30305a",
-    success: "#00ff9d",
-    warning: "#ffd700",
-    danger: "#ff0055",
-    accent: "#bd00ff",
   },
 };
 
-// Get default custom theme
 export const getCustomTheme = () => {
+  if (typeof window === "undefined") return null;
   try {
     const customTheme = localStorage.getItem("customTheme");
-    if (customTheme) {
-      return JSON.parse(customTheme);
-    }
-    return { ...themes.light, name: "custom" };
+    return customTheme ? JSON.parse(customTheme) : null;
   } catch (e) {
-    return { ...themes.light, name: "custom" };
+    return null;
   }
 };

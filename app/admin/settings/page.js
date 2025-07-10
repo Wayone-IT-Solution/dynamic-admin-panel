@@ -38,7 +38,7 @@ const withErrorBoundary = (WrappedComponent) => {
 };
 
 const SettingsPageContent = () => {
-  const { theme, themeConfig, changeTheme, setThemeConfig } = useTheme();
+  const { themeConfig, updateCustomTheme } = useTheme(); // Use new function
   const [customTheme, setCustomTheme] = useState({ ...themeConfig });
 
   useEffect(() => {
@@ -46,19 +46,17 @@ const SettingsPageContent = () => {
   }, [themeConfig]);
 
   const handleColorChange = (key, value) => {
-    setCustomTheme((prev) => ({ ...prev, [key]: value }));
-  };
+    const updatedTheme = { ...customTheme, [key]: value };
+    setCustomTheme(updatedTheme);
 
-  const handleSave = () => {
-    const newTheme = { ...customTheme, name: "custom" };
-    localStorage.setItem("customTheme", JSON.stringify(newTheme));
-    setThemeConfig(newTheme);
-    changeTheme("custom");
-    alert("Theme saved successfully!");
+    // Update global theme immediately
+    updateCustomTheme(updatedTheme);
   };
 
   const resetToDefault = () => {
-    setCustomTheme({ ...(themes[theme] || themes.light) });
+    const defaultTheme = { ...themes.light, name: "custom" };
+    setCustomTheme(defaultTheme);
+    updateCustomTheme(defaultTheme);
   };
 
   return (
@@ -105,14 +103,6 @@ const SettingsPageContent = () => {
           </div>
 
           <div className="flex gap-3 mt-8">
-            <button
-              onClick={handleSave}
-              className="px-4 py-2 rounded-xl text-white font-medium flex items-center gap-2"
-              style={{ backgroundColor: "var(--primary)" }}
-            >
-              <FiSave size={18} />
-              Save Theme
-            </button>
             <button
               onClick={resetToDefault}
               className="px-4 py-2 rounded-xl border flex items-center gap-2"

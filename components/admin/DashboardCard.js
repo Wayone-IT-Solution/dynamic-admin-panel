@@ -4,33 +4,46 @@ import { FiArrowUpRight } from "react-icons/fi";
 
 const DashboardCard = ({ title, value, change, icon }) => {
   return (
-    <div className="card">
+    <div
+      className="p-6 rounded-xl shadow-sm transition-all"
+      style={{
+        backgroundColor: "var(--card)",
+        border: "1px solid var(--border)",
+      }}
+    >
       <div className="flex justify-between items-start">
         <div>
-          <p className="mb-1" style={{ color: "var(--text-secondary)" }}>
+          <p
+            className="text-sm mb-2"
+            style={{ color: "var(--text-secondary)" }}
+          >
             {title}
           </p>
-          <h3 className="text-2xl font-bold">{value}</h3>
+          <h3
+            className="text-2xl font-bold"
+            style={{ color: "var(--text-primary)" }}
+          >
+            {value}
+          </h3>
         </div>
         <div
-          className="p-3 rounded-xl"
+          className="p-3 rounded-lg"
           style={{
-            background: "rgba(255,255,255,0.1)",
+            backgroundColor: "var(--background)",
             color: "var(--primary)",
           }}
         >
           {icon}
         </div>
       </div>
-
       {change && (
-        <p
-          className="mt-4 flex items-center text-sm"
+        <div
+          className="mt-4 flex items-center"
           style={{ color: "var(--success)" }}
         >
-          <FiArrowUpRight className="mr-1" />
-          <span>{change}</span>
-        </p>
+          <FiArrowUpRight className="mr-2" />
+          <span className="text-sm">{change}</span>
+        </div>
       )}
     </div>
   );

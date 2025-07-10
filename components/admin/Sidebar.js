@@ -11,10 +11,19 @@ import {
   FiBarChart2,
 } from "react-icons/fi";
 import ThemeToggle from "./ThemeToggle";
+import { useEffect, useState } from "react";
 import { useTheme } from "@/context/ThemeContext";
 
 const Sidebar = () => {
   const pathname = usePathname();
+
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   const navItems = [
     { name: "Dashboard", href: "/admin", icon: <FiHome size={20} /> },
@@ -54,10 +63,7 @@ const Sidebar = () => {
           >
             NeoAdmin
           </span>
-          <span
-            className="text-xs text-white px-2 py-1 rounded-full"
-            style={{ backgroundColor: "var(--accent)" }}
-          >
+          <span className="text-xs text-white px-2 py-1 rounded-full bg-primary">
             PRO
           </span>
         </h1>

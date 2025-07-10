@@ -1,10 +1,17 @@
-// components/admin/ThemeToggle.js
 "use client";
 import { FiMoon, FiSun } from "react-icons/fi";
 import { useTheme } from "@/context/ThemeContext";
+import { useEffect, useState } from "react";
 
 const ThemeToggle = () => {
   const { theme, changeTheme } = useTheme();
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
 
   return (
     <div className="flex items-center justify-between">
@@ -29,16 +36,6 @@ const ThemeToggle = () => {
           }}
         >
           <FiMoon size={18} />
-        </button>
-        <button
-          onClick={() => changeTheme("cyberpunk")}
-          className="p-2 rounded-lg transition-colors"
-          style={{
-            backgroundColor:
-              theme === "cyberpunk" ? "rgba(255,255,255,0.2)" : "transparent",
-          }}
-        >
-          <span className="text-sm font-bold">CP</span>
         </button>
       </div>
     </div>
